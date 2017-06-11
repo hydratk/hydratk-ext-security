@@ -34,7 +34,7 @@ install:
   - "sudo cp -R tests/yodahelpers/hydratk /var/local/hydratk/yoda/helpers/yodahelpers"
   - "sudo cp -R tests/yoda-tests/hydratk /var/local/hydratk/yoda/yoda-tests"  
   - "sudo cp tests/travis.yoda /var/local/hydratk/yoda/yoda-tests"
-  - "cmdpath=`which yoda`"  
+  - "cmdpath=`which yoda`"   
   
 script:
   - "sudo $cmdpath -tp travis.yoda run"
