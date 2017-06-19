@@ -18,8 +18,8 @@ Unit tests available at hydratk/ext/security/zap/01_methods_ut.jedi
 
 * _mh - MasterHead reference
 * _client - ZAPv2 object instance
-* _path - proxy path
-* _host - proxy port
+* _path - path to control script
+* _host - host
 * _port - proxy port
 
 **Properties (Getters)** :

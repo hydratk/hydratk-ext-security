@@ -17,6 +17,12 @@ language = {
 
 msg = {
     'sec_received_cmd': ["Obdržen příkaz: '{0}'"],
+    'msf_start': ["Spouštím MSF cesta: {0}, host: {1}, port: {2}, user: {3}, heslo: {4}"],
+    'msf_started': ["MSF úspěšně spuštěn"],
+    'msf_stop': ["Zastavuji MSF"],
+    'msf_stopped': ["MSF úspěšně zastaven"],
+    'msf_call_req': ["Volám MSF metodu: {0}, parametry: {1}"],
+    'msf_call_res': ["MSF metoda vrátila {0}"],
     'zap_start': ["Spouštím ZAP cesta: {0}, host: {1}, port: {2}"],
     'zap_started': ["ZAP úspěšně spuštěn"],
     'zap_stop': ["Zastavuji ZAP"],

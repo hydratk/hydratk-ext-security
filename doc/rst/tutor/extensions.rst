@@ -9,3 +9,5 @@ This section provides tutorials for HydraTK extensions.
    :maxdepth: 1
 
    ext/security/security
+   ext/security/msf
+   ext/security/zap

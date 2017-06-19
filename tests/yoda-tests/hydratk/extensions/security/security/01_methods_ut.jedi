@@ -66,7 +66,7 @@ Test-Scenario-2:
         assert (sorted(res.keys()) == exp), '_cmd_hooks = {0}'.format(exp)
         res = commandopt.long_opt['htk']
         this.test_result = str(res)
-        exp = ['sec-action', 'sec-format', 'sec-host', 'sec-method', 'sec-output', 'sec-params', 'sec-path', 'sec-port', 'sec-type', 'sec-url']
+        exp = ['sec-action', 'sec-area', 'sec-format', 'sec-host', 'sec-method', 'sec-output', 'sec-params', 'sec-passw', 'sec-path', 'sec-port', 'sec-type', 'sec-url', 'sec-user']
         assert (sorted(res) == exp), 'long_opt = {0}'.format(exp)
         th.clear_cmd()
         
@@ -105,8 +105,8 @@ Test-Scenario-3:
         assert (sorted(res.keys()) == exp), '_cmd_hooks = {0}'.format(exp)  
         res = commandopt.long_opt['security']
         this.test_result = str(res)
-        exp = ['action', 'config', 'debug', 'debug-channel', 'force', 'format', 'host', 'interactive', 
-               'language', 'method', 'output', 'params', 'path', 'port', 'run-mode', 'type', 'url']
+        exp = ['action', 'area', 'config', 'debug', 'debug-channel', 'force', 'format', 'host', 'interactive', 
+               'language', 'method', 'output', 'params', 'passw', 'path', 'port', 'run-mode', 'type', 'url', 'user']
         assert (sorted(res) == exp), 'long_opt = {0}'.format(exp)        
         th.clear_cmd()     
         
@@ -146,7 +146,7 @@ Test-Scenario-4:
         assert (sorted(res.keys()) == exp), '_cmd_hooks = {0}'.format(exp)
         res = commandopt.long_opt['htk']
         this.test_result = str(res)
-        exp = ['sec-action', 'sec-format', 'sec-host', 'sec-method', 'sec-output', 'sec-params', 'sec-path', 'sec-port', 'sec-type', 'sec-url']
+        exp = ['sec-action', 'sec-area', 'sec-format', 'sec-host', 'sec-method', 'sec-output', 'sec-params', 'sec-passw', 'sec-path', 'sec-port', 'sec-type', 'sec-url', 'sec-user']
         assert (sorted(res) == exp), 'long_opt = {0}'.format(exp)        
         th.clear_cmd()    
         
@@ -169,8 +169,8 @@ Test-Scenario-4:
         assert (sorted(res.keys()) == exp), '_cmd_hooks = {0}'.format(exp)
         res = commandopt.long_opt['security']
         this.test_result = str(res)
-        exp = ['action', 'config', 'debug', 'debug-channel', 'force', 'format', 'host', 'interactive', 
-               'language', 'method', 'output', 'params', 'path', 'port', 'run-mode', 'type', 'url']
+        exp = ['action', 'area', 'config', 'debug', 'debug-channel', 'force', 'format', 'host', 'interactive', 
+               'language', 'method', 'output', 'params', 'passw', 'path', 'port', 'run-mode', 'type', 'url', 'user']
         assert (sorted(res) == exp), 'long_opt = {0}'.format(exp)           
         th.clear_cmd()
         
@@ -178,7 +178,7 @@ Test-Scenario-5:
   Id: ts_05
   Path: hydratk/extensions/security/security/01_methods_ut.jedi
   Name: ts_sec_zap
-  Desc: Test method _sec_zap
+  Desc: Test method sec_zap
   Author: Petr Rasek <bowman@hydratk.org>
   Version: 0.1
   
@@ -303,4 +303,102 @@ Test-Scenario-5:
         this.test_result = res
         assert (res), 'ZAP stopped'   
         th.post_replace()
-        th.clear_cmd()                      
+        th.clear_cmd()
+        
+Test-Scenario-6:
+  Id: ts_06
+  Path: hydratk/extensions/security/security/01_methods_ut.jedi
+  Name: ts_sec_msf
+  Desc: Test method _sec_msf
+  Author: Petr Rasek <bowman@hydratk.org>
+  Version: 0.1
+  
+  Pre-Req: |
+    from yodalib.hydratk.core.testhead import TestHead
+    from subprocess import Popen, PIPE    
+    from time import sleep
+    from os import path, remove  
+    import sys
+    
+    try:
+        from StringIO import StringIO
+    except ImportError:
+        from io import StringIO     
+  
+  Test-Case-1:
+    Id: tc_01
+    Name: tc_sec_msf
+    Desc: MSF
+    
+    Test-Condition-1: 
+      Id: tco_01
+      Name: tco_start
+      Desc: Action start        
+      
+      Test: |
+        th = TestHead()
+        ext = th._ext['Security']
+        th.pre_replace()
+        TestHead.options = {'sec-action': 'start', 'sec-path': '/usr/bin/msfrpcd', 'sec-host' : '0.0.0.0', 'sec-port': 8000}
+        ext.sec_msf()
+        proc = Popen(['ps', '-ef'], stdout=PIPE)
+        out = proc.communicate()                
+        res = True if ('msfrpcd' in str(out)) else False
+        
+      Validate: |
+        this.test_result = res
+        assert (res), 'MSF started'   
+        
+    Test-Condition-2: 
+      Id: tco_02
+      Name: tco_call
+      Desc: Action call        
+      
+      Test: |
+        old = sys.stdout
+        sys.stdout = res = StringIO()            
+        TestHead.options = {'sec-action': 'call', 'sec-host' : '0.0.0.0', 'sec-port': 8000, 'sec-method': 'auth.login', 'sec-params': 'msf|msf'}
+        ext.sec_msf()        
+        res = res.getvalue()
+        sys.stdout = old
+        
+      Validate: |
+        this.test_result = res
+        assert ('success' in res), 'Login successful'                                             
+                
+    Test-Condition-3: 
+      Id: tco_03
+      Name: tco_stop
+      Desc: Action stop        
+      
+      Test: |
+        TestHead.options = {'sec-action': 'stop'}
+        ext.sec_msf()
+        sleep(5)
+        proc = Popen(['ps', '-ef'], stdout=PIPE)
+        out = proc.communicate()
+        res = True if ('msfrpcd' not in str(out)) else False
+        
+      Validate: |
+        this.test_result = res
+        assert (res), 'MSF stopped'    
+        
+    Test-Condition-4: 
+      Id: tco_04
+      Name: tco_help
+      Desc: Action help        
+      
+      Test: |
+        old = sys.stdout
+        sys.stdout = res = StringIO()        
+        TestHead.options = {'sec-action': 'help', 'sec-method': 'auth.token_add'}
+        ext.sec_msf()
+        res = res.getvalue()
+        sys.stdout = old
+        res = True if ('A unique token' in res) else False
+        
+      Validate: |
+        this.test_result = res
+        assert (res), 'Help printed'   
+        th.post_replace()
+        th.clear_cmd()              

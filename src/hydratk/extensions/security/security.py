@@ -17,6 +17,14 @@ dep_modules = {
         'min-version': '0.4.0',
         'package': 'hydratk'
     },
+    'msgpack': {
+        'min-version': '0.4.8',
+        'package': 'msgpack-python'
+    },
+    'requests': {
+        'min-version': '2.11.1',
+        'package': 'requests'
+    },
     'simplejson': {
         'min-version': '3.8.2',
         'package': 'simplejson'
@@ -121,15 +129,18 @@ class Extension(extension.Extension):
         self._mh.register_command_hook(hook)
 
         self._mh.match_long_option('sec-action', True, 'sec-action')
+        self._mh.match_long_option('sec-area', True, 'sec-area')
         self._mh.match_long_option('sec-format', True, 'sec-format')
         self._mh.match_long_option('sec-host', True, 'sec-host')
         self._mh.match_long_option('sec-method', True, 'sec-method')
         self._mh.match_long_option('sec-output', True, 'sec-output')
         self._mh.match_long_option('sec-params', True, 'sec-params')
+        self._mh.match_long_option('sec-passw', True, 'sec-passw')
         self._mh.match_long_option('sec-path', True, 'sec-path')
         self._mh.match_long_option('sec-port', True, 'sec-port')
         self._mh.match_long_option('sec-type', True, 'sec-type')
         self._mh.match_long_option('sec-url', True, 'sec-url')
+        self._mh.match_long_option('sec-user', True, 'sec-user')
 
     def _register_standalone_actions(self):
         """Method registers command hooks for standalone mode
@@ -160,15 +171,18 @@ class Extension(extension.Extension):
         self._mh.match_cli_command('help', option_profile)
 
         self._mh.match_long_option('action', True, 'sec-action', False, option_profile)
+        self._mh.match_long_option('area', True, 'sec-area', False, option_profile)
         self._mh.match_long_option('format', True, 'sec-format', False, option_profile)
         self._mh.match_long_option('host', True, 'sec-host', False, option_profile)
         self._mh.match_long_option('method', True, 'sec-method', False, option_profile)
         self._mh.match_long_option('output', True, 'sec-output', False, option_profile)
         self._mh.match_long_option('params', True, 'sec-params', False, option_profile)
+        self._mh.match_long_option('passw', True, 'sec-passw', False, option_profile)
         self._mh.match_long_option('path', True, 'sec-path', False, option_profile)
         self._mh.match_long_option('port', True, 'sec-port', False, option_profile)
         self._mh.match_long_option('type', True, 'sec-type', False, option_profile)
         self._mh.match_long_option('url', True, 'sec-url', False, option_profile)
+        self._mh.match_long_option('user', True, 'sec-user', False, option_profile)
 
         self._mh.match_cli_option(('c', 'config'), True, 'config', False, option_profile)
         self._mh.match_cli_option(('d', 'debug'), True, 'debug', False, option_profile)
@@ -191,7 +205,67 @@ class Extension(extension.Extension):
 
         """
 
-        pass
+        self._mh.dmsg('htk_on_debug_info', self._mh._trn.msg('sec_received_cmd', 'sec-msf'), self._mh.fromhere())
+
+        action = CommandlineTool.get_input_option('sec-action')
+        if (not action):
+            print('Missing option action')
+        elif (action not in ['call', 'help', 'start', 'stop']):
+            print('Action not in call|help|start|stop')
+        else:
+
+            rpc_path = CommandlineTool.get_input_option('sec-path')
+            host = CommandlineTool.get_input_option('sec-host')
+            port = CommandlineTool.get_input_option('sec-port')
+            user = CommandlineTool.get_input_option('sec-user')
+            passw = CommandlineTool.get_input_option('sec-passw')
+            area = CommandlineTool.get_input_option('sec-area')
+            method = CommandlineTool.get_input_option('sec-method')
+            in_params = CommandlineTool.get_input_option('sec-params')
+
+            host = None if (not host) else host
+            port = None if (not port) else port
+            user = None if (not user) else user
+            passw = None if (not passw) else passw
+
+            from hydratk.extensions.security.msf import Client
+            c = Client(host, port, user, passw)
+
+            if (action == 'start'):
+                rpc_path = 'msfrpcd' if (not rpc_path) else rpc_path
+                result = c.start(rpc_path)
+                if (not result):
+                    print('Failed to start MSF')
+
+            elif (action == 'stop'):
+                result = c.stop()
+                if (not result):
+                    print('Failed to stop MSF')
+
+            elif (action == 'call'):
+                if (not method):
+                    print('Missing option method')
+                else:
+                    params = []
+                    if (in_params != False):
+                        for param in in_params.split('|'):
+                            if (':' in param):
+                                key, val = param.split(':')
+                                params.append({key: val})
+                            else:
+                                params.append(param)
+                    
+                    result, out = c.call(method, params)
+                    if (not result):
+                        print('Failed to call MSF method {0}'.format(method))
+                    else:
+                        print(out)
+
+            elif (action == 'help'):
+                area = None if (not area) else area
+                method = None if (not method) else method
+                out = c.api_help(area, method)
+                print(out)
 
     def sec_zap(self):
         """Method handles command sec-zap

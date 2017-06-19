@@ -21,6 +21,14 @@ bootstrapper
 .. automodule:: hydratk.extensions.security.bootstrapper
    :member-order: bysource    
    
+.. _refman_ext_security_msf: 
+
+msf
+^^^
+
+.. automodule:: hydratk.extensions.security.msf
+   :member-order: bysource      
+   
 .. _refman_ext_security_zap: 
 
 zap

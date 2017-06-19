@@ -9,4 +9,5 @@ This section contains module documentation of Security extension.
    :maxdepth: 1
    
    main
+   msf
    zap

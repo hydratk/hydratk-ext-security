@@ -50,7 +50,9 @@ config = {
 
     'modules': [
         {'module': 'hydratk', 'version': '>=0.4.0'},
-        {'module': 'python-owasp-zap-v2.4', 'version': '>=0.0.10'}
+        {'module': 'msgpack-python', 'version': '>=0.4.8'},
+        {'module': 'python-owasp-zap-v2.4', 'version': '>=0.0.10'},
+        {'module': 'requests', 'version': '>=2.11.1'}
     ],
 
     'files': {

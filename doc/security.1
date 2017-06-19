@@ -9,19 +9,32 @@ security \- runs Security HydraTK extension
 \fBSecurity\fR extension provides interface to security testing tools
 
 Following tools are supported:
+  \fBMSF\fR - MetaSploit Framework
   \fBZAP\fR - Zed Attack Proxy
 .SH COMMANDS
 \fBhelp\fR - prints help
+
+\fBmsf\fR - run MSF command
+  \fIOptions:\fR
+    \fB--action <string>\fR - action - call|start|stop
+    \fB[--area <string>]\fR - RPC area, supported for action help
+    \fB[--host <string>]\fR - host, default 127.0.0.1
+    \fB[--method <string>]\fR - RPC method name, supported for actions call|help
+    \fB[--params <list>]\fR - method parameters val1|val2|key3:val3, supported for action call
+    \fB[--passw <string>]\fR - password, default msf
+    \fB[--path <path>]\fR - path to daemon script, default msfrpcd, supported for action start
+    \fB[--port <number>]\fR - RPC port, default 55553
+    \fB[--user <string>]\fR - username, default msf
     
 \fBzap\fR - run ZAP command
   \fIOptions:\fR
     \fB--action <string>\fR - action - export|scan|spider|start|stop
     \fB[--format <string>]\fR - output format - har|html|json|md|xml, supported for action export 
-    \fB[--host <string>]\fR - proxy host, default 127.0.0.1
+    \fB[--host <string>]\fR - host, default 127.0.0.1
     \fB[--method <string>]\fR - HTTP method, default GET, supported for action scan
     \fB[--output <filename>]\fR - output filename, supported for action export
     \fB[--params <dict>]\fR - request parameters key1:val1|key2:val2, supported for actions scan|spider
-    \fB[--path <path>]\fR - proxy path, default zap.sh, supported for action start
+    \fB[--path <path>]\fR - path to proxy control script, default zap.sh, supported for action start
     \fB[--port <number>]\fR - proxy port, default 8080
     \fB[--type <string>]\fR - output type - alert|msg|url, default alert, supported for action export
     \fB[--url <string>]\fR - URL, supported for actions export|scan|spider           

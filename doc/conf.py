@@ -18,6 +18,8 @@ sys.path.append('../src')
 
 autodoc_default_flags = ['members', 'private-members', 'special-members']
 autodoc_mock_imports = [
+    'msgpack',
+    'requests', 'requests.exceptions', 'requests.packages.urllib3',
     'simplejson',
     'zapv2'
 ]

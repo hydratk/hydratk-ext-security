@@ -54,7 +54,9 @@ Several python modules are used.
 These modules will be installed automatically, if not installed yet.
 
 * hydratk
+* msgpack-python
 * python-owasp-zap-v2.4
+* requests
 * simplejson    
      
 Installation
@@ -138,18 +140,31 @@ Type man security to display manual page.
      $ htk help
      
      Commands:    
-       sec-zap - run ZAP (Zed Attack Proxy) command
-         Options:
-           --sec-action <string> - action - export|scan|spider|start|stop
-           [--sec-format <string>] - output format - har|html|json|md|xml, default json, supported for action export
-           [--sec-host <string>] - proxy host, default 127.0.0.1
-           [--sec-method <string>] - HTTP method, default GET, supported for action scan
-           [--sec-output <filename>] - output filename, supported for action export
-           [--sec-params <dict>] - request parameters key1:val1|key2:val2, supported for actions scan|spider
-           [--sec-path <path>] - proxy path, default zap.sh, supported for action start
-           [--sec-port <number>] - proxy port, default 8080
-           [--sec-type <string>] - output type - alert|msg|url, default alert, supported for action export
-           [--sec-url <string>] - URL, supported for actions export|scan|spider                     
+        sec-msf - run MSF (MetaSploit Framework) command
+           Options:
+              --sec-action <string> - action - call|start|stop
+              [--sec-area <string>] - RPC area, supported for action help
+              [--sec-host <string>] - host, default 127.0.0.1
+              [--sec-method <string>] - RPC method name, supported for actions call|help
+              [--sec-params <list>] - method parameters val1|val2|key3:val3, supported for action call
+              [--sec-passw <string>] - password, default msf
+              [--sec-path <path>] - path to daemon script, default msfrpcd, supported for action start
+              [--sec-port <number>] - RPC port, default 55553
+              [--sec-user <string>] - username, default msf
+
+        sec-zap - run ZAP (Zed Attack Proxy) command
+           Options:
+              --sec-action <string> - action - export|scan|spider|start|stop
+              [--sec-format <string>] - output format - har|html|json|md|xml, default json, supported for action export
+              [--sec-host <string>] - host, default 127.0.0.1
+              [--sec-method <string>] - HTTP method, default GET, supported for action scan
+              [--sec-output <filename>] - output filename, supported for action export
+              [--sec-params <dict>] - request parameters key1:val1|key2:val2, supported for actions scan|spider
+              [--sec-path <path>] - path to proxy control script, default zap.sh, supported for action start
+              [--sec-port <number>] - proxy port, default 8080
+              [--sec-type <string>] - output type - alert|msg|url, default alert, supported for action export
+              [--sec-url <string>] - URL, supported for actions export|scan|spider
+                   
            
 You can run Security also in standalone mode.  
 
@@ -163,15 +178,27 @@ You can run Security also in standalone mode.
 
      Commands:
         help - prints help
+        msf - run MSF (MetaSploit Framework) command
+           Options:
+              --action <string> - action - call|start|stop
+              [--area <string>] - RPC area, supported for action help
+              [--host <string>] - host, default 127.0.0.1
+              [--method <string>] - RPC method name, supported for actions call|help
+              [--params <list>] - method parameters val1|val2|key3:val3, supported for action call
+              [--passw <string>] - password, default msf
+              [--path <path>] - path to daemon script, default msfrpcd, supported for action start
+              [--port <number>] - RPC port, default 55553
+              [--user <string>] - username, default msf
+
         zap - run ZAP (Zed Attack Proxy) command
            Options:
               --action <string> - action - export|scan|spider|start|stop
               [--format <string>] - output format - har|html|json|md|xml, default json, supported for action export
-              [--host <string>] - proxy host, default 127.0.0.1
+              [--host <string>] - host, default 127.0.0.1
               [--method <string>] - HTTP method, default GET, supported for action scan
               [--output <filename>] - output filename, supported for action export
               [--params <dict>] - request parameters key1:val1|key2:val2, supported for actions scan|spider
-              [--path <path>] - proxy path, default zap.sh, supported for action start
+              [--path <path>] - path to proxy control script, default zap.sh, supported for action start
               [--port <number>] - proxy port, default 8080
               [--type <string>] - output type - alert|msg|url, default alert, supported for action export
               [--url <string>] - URL, supported for actions export|scan|spider

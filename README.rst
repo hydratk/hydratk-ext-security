@@ -6,4 +6,5 @@ README for HydraTK Security extension
 
 | Following applications are supported.
 
+* MSF - MetaSploit Framework
 * ZAP - Zed Attack Proxy
