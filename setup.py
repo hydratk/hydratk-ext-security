@@ -1,7 +1,15 @@
 # -*- coding: utf-8 -*-
-from setuptools import setup, find_packages
+from setuptools import setup as st_setup
+from setuptools import find_packages as st_find_packages
 from sys import argv, version_info
 import hydratk.lib.install.task as task
+import hydratk.lib.system.config as syscfg
+
+try:
+    os_info = syscfg.get_supported_os()
+except Exception as exc:
+    print(str(exc))
+    exit(1)
 
 with open("README.rst", "r") as f:
     readme = f.read()
@@ -57,7 +65,7 @@ config = {
 
     'files': {
         'config': {
-            'etc/hydratk/conf.d/hydratk-ext-security.conf': '/etc/hydratk/conf.d'
+            'etc/hydratk/conf.d/hydratk-ext-security.conf': '{0}/hydratk/conf.d'.format(syscfg.HTK_ETC_DIR)
         },
         'manpage': 'doc/security.1'
     }
@@ -71,16 +79,16 @@ entry_points = {
     ]
 }
 
-setup(
+st_setup(
     name='hydratk-ext-security',
-    version='0.1.0a.dev0',
+    version='0.1.0rc1',
     description='Interface to security testing tools',
     long_description=readme,
     author='Petr Rašek, HydraTK team',
     author_email='bowman@hydratk.org, team@hydratk.org',
     url='http://extensions.hydratk.org/security',
     license='BSD',
-    packages=find_packages('src'),
+    packages=st_find_packages('src'),
     package_dir={'': 'src'},
     classifiers=classifiers,
     zip_safe=False,

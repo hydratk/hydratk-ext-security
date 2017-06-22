@@ -11,6 +11,7 @@
 from sys import exit
 from hydratk.core import extension, bootstrapper
 from hydratk.lib.console.commandlinetool import CommandlineTool
+import hydratk.lib.system.config as syscfg
 
 dep_modules = {
     'hydratk': {
@@ -86,7 +87,7 @@ class Extension(extension.Extension):
 
         files = [
             '/usr/share/man/man1/security.1',
-            '/etc/hydratk/conf.d/hydratk-ext-security.conf'
+            '{0}/hydratk/conf.d/hydratk-ext-security.conf'.format(syscfg.HTK_ETC_DIR)
         ]
 
         return files, dep_modules

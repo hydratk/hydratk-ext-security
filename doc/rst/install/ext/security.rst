@@ -66,6 +66,21 @@ See installation example, Python 2.7.
 
   .. code-block:: bash
   
+     **************************************
+     *     Running pre-install tasks      *
+     **************************************
+     
+     *** Running task: version_update ***
+     
+     *** Running task: install_modules ***
+     Module hydratk already installed with version 0.5.0rc1
+     Installing module msgpack-python>=0.4.8
+     pip install "msgpack-python>=0.4.8"
+     Installing module python-owasp-zap-v2.4>=0.0.10
+     pip install "python-owasp-zap-v2.4>=0.0.10"
+     Module requests already installed with version 2.18.1
+     Module simplejson already installed with version 3.11.1
+     
      running install
      running bdist_egg
      running egg_info
@@ -84,26 +99,36 @@ See installation example, Python 2.7.
      creating build
      creating build/lib.linux-x86_64-2.7
      creating build/lib.linux-x86_64-2.7/hydratk
-     copying src/hydratk/__init__.py -> build/lib.linux-x86_64-2.7/hydratk
-     creating build/lib.linux-x86_64-2.7/hydratk/extensions
-     copying src/hydratk/extensions/__init__.py -> build/lib.linux-x86_64-2.7/hydratk/extensions
-     creating build/lib.linux-x86_64-2.7/hydratk/extensions/security
-     copying src/hydratk/extensions/security/__init__.py -> build/lib.linux-x86_64-2.7/hydratk/extensions/security
      ...
-
+     creating build/bdist.linux-x86_64/egg/EGG-INFO
+     copying src/hydratk_ext_security.egg-info/PKG-INFO -> build/bdist.linux-x86_64/egg/EGG-INFO
+     copying src/hydratk_ext_security.egg-info/SOURCES.txt -> build/bdist.linux-x86_64/egg/EGG-INFO
+     copying src/hydratk_ext_security.egg-info/dependency_links.txt -> build/bdist.linux-x86_64/egg/EGG-INFO
+     copying src/hydratk_ext_security.egg-info/entry_points.txt -> build/bdist.linux-x86_64/egg/EGG-INFO
+     copying src/hydratk_ext_security.egg-info/not-zip-safe -> build/bdist.linux-x86_64/egg/EGG-INFO
+     copying src/hydratk_ext_security.egg-info/top_level.txt -> build/bdist.linux-x86_64/egg/EGG-INFO
      creating dist
-     creating 'dist/hydratk_ext_security-0.1.0a0.dev0-py2.7.egg' and adding 'build/bdist.linux-x86_64/egg' to it
+     creating 'dist/hydratk_ext_security-0.1.0rc1-py2.7.egg' and adding 'build/bdist.linux-x86_64/egg' to it
      removing 'build/bdist.linux-x86_64/egg' (and everything under it)
-     Processing hydratk_ext_security-0.1.0a0.dev0-py2.7.egg
-     removing '/usr/local/lib/python2.7/dist-packages/hydratk_ext_security-0.1.0a0.dev0-py2.7.egg' (and everything under it)
-     creating /usr/local/lib/python2.7/dist-packages/hydratk_ext_security-0.1.0a0.dev0-py2.7.egg
-     Extracting hydratk_ext_security-0.1.0a0.dev0-py2.7.egg to /usr/local/lib/python2.7/dist-packages
-     hydratk-ext-security 0.1.0a0.dev0 is already the active version in easy-install.pth
+     Processing hydratk_ext_security-0.1.0rc1-py2.7.egg
+     creating /usr/local/lib/python2.7/dist-packages/hydratk_ext_security-0.1.0rc1-py2.7.egg
+     Extracting hydratk_ext_security-0.1.0rc1-py2.7.egg to /usr/local/lib/python2.7/dist-packages
+     Adding hydratk-ext-security 0.1.0rc1 to easy-install.pth file
      Installing security script to /usr/local/bin
+     Installed /usr/local/lib/python2.7/dist-packages/hydratk_ext_security-0.1.0rc1-py2.7.egg
+     Processing dependencies for hydratk-ext-security==0.1.0rc1
+     Finished processing dependencies for hydratk-ext-security==0.1.0rc1
+     
+     **************************************
+     *     Running post-install tasks     *
+     **************************************
 
-     Installed /usr/local/lib/python2.7/dist-packages/hydratk_ext_security-0.1.0a0.dev0-py2.7.egg
-     Processing dependencies for hydratk-ext-security==0.1.0a0.dev0
-     Finished processing dependencies for hydratk-ext-security==0.1.0a0.dev0 
+     *** Running task: set_config ***
+
+     Copying file etc/hydratk/conf.d/hydratk-ext-security.conf to /etc/hydratk/conf.d
+
+     *** Running task: set_manpage ***
+     
   
 Application installs following (paths depend on your OS configuration)
 
