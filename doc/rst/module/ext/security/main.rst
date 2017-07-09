@@ -49,7 +49,7 @@ Method registers action hooks for standalone mode.
 
 commands - help, msf, zap
 long options - action, format, host, method, output, params, passw, path, port, type, url, user
-global options - config, debug, debug-channel, language, run-mode, force, interactive
+global options - config, debug, debug-channel, language, run-mode, force, interactive, home
 
 * sec_msf
 

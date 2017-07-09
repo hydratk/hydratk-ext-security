@@ -105,7 +105,7 @@ Test-Scenario-3:
         assert (sorted(res.keys()) == exp), '_cmd_hooks = {0}'.format(exp)  
         res = commandopt.long_opt['security']
         this.test_result = str(res)
-        exp = ['action', 'area', 'config', 'debug', 'debug-channel', 'force', 'format', 'host', 'interactive', 
+        exp = ['action', 'area', 'config', 'debug', 'debug-channel', 'force', 'format', 'home', 'host', 'interactive', 
                'language', 'method', 'output', 'params', 'passw', 'path', 'port', 'run-mode', 'type', 'url', 'user']
         assert (sorted(res) == exp), 'long_opt = {0}'.format(exp)        
         th.clear_cmd()     
@@ -169,7 +169,7 @@ Test-Scenario-4:
         assert (sorted(res.keys()) == exp), '_cmd_hooks = {0}'.format(exp)
         res = commandopt.long_opt['security']
         this.test_result = str(res)
-        exp = ['action', 'area', 'config', 'debug', 'debug-channel', 'force', 'format', 'host', 'interactive', 
+        exp = ['action', 'area', 'config', 'debug', 'debug-channel', 'force', 'format', 'home', 'host', 'interactive', 
                'language', 'method', 'output', 'params', 'passw', 'path', 'port', 'run-mode', 'type', 'url', 'user']
         assert (sorted(res) == exp), 'long_opt = {0}'.format(exp)           
         th.clear_cmd()
