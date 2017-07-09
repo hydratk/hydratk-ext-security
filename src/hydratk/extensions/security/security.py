@@ -192,6 +192,7 @@ class Extension(extension.Extension):
         self._mh.match_cli_option(('m', 'run-mode'), True, 'run-mode', False, option_profile)
         self._mh.match_cli_option(('f', 'force'), False, 'force', False, option_profile)
         self._mh.match_cli_option(('i', 'interactive'), False, 'interactive', False, option_profile)
+        self._mh.match_cli_option(('h', 'home'), False, 'home', False, option_profile)
 
     def sec_msf(self):
         """Method handles command sec-msf
