@@ -81,7 +81,7 @@ entry_points = {
 
 st_setup(
     name='hydratk-ext-security',
-    version='0.1.0rc1',
+    version='0.1.0',
     description='Interface to security testing tools',
     long_description=readme,
     author='Petr Rašek, HydraTK team',
