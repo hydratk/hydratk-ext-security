@@ -56,7 +56,7 @@ class Extension(extension.Extension):
         self._ext_name = 'Security'
         self._ext_version = '0.1.0'
         self._ext_author = 'Petr Rašek <bowman@hydratk.org>, HydraTK team <team@hydratk.org>'
-        self._ext_year = '2017-2017'
+        self._ext_year = '2017-2018'
 
         if (not self._check_dependencies()):
             exit(0)
@@ -207,7 +207,7 @@ class Extension(extension.Extension):
 
         """
 
-        self._mh.dmsg('htk_on_debug_info', self._mh._trn.msg('sec_received_cmd', 'sec-msf'), self._mh.fromhere())
+        self._mh.demsg('htk_on_debug_info', self._mh._trn.msg('sec_received_cmd', 'sec-msf'), self._mh.fromhere())
 
         action = CommandlineTool.get_input_option('sec-action')
         if (not action):
@@ -282,7 +282,7 @@ class Extension(extension.Extension):
 
         """
 
-        self._mh.dmsg('htk_on_debug_info', self._mh._trn.msg('sec_received_cmd', 'sec-zap'), self._mh.fromhere())
+        self._mh.demsg('htk_on_debug_info', self._mh._trn.msg('sec_received_cmd', 'sec-zap'), self._mh.fromhere())
 
         action = CommandlineTool.get_input_option('sec-action')
         if (not action):

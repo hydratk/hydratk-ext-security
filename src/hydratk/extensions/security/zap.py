@@ -112,7 +112,7 @@ class Client(object):
         try:
 
             self._path = self._path if (proxy_path == None) else proxy_path
-            self._mh.dmsg('htk_on_debug_info', self._mh._trn.msg('zap_start', self._path, self._host, self._port), self._mh.fromhere())
+            self._mh.demsg('htk_on_debug_info', self._mh._trn.msg('zap_start', self._path, self._host, self._port), self._mh.fromhere())
 
             ev = event.Event('zap_before_start')
             self._mh.fire_event(ev)
@@ -126,14 +126,14 @@ class Client(object):
                 else:
                     raise ValueError('Path {0} not found'.format(self._path))
 
-            self._mh.dmsg('htk_on_debug_info', self._mh._trn.msg('zap_started'), self._mh.fromhere())
+            self._mh.demsg('htk_on_debug_info', self._mh._trn.msg('zap_started'), self._mh.fromhere())
             ev = event.Event('zap_after_start')
             self._mh.fire_event(ev)
 
             return True
 
         except (Exception, ValueError) as ex:
-            self._mh.dmsg('htk_on_error', 'error: {0}'.format(ex), self._mh.fromhere())
+            self._mh.demsg('htk_on_error', 'error: {0}'.format(ex), self._mh.fromhere())
             return False
 
     def stop(self):
@@ -153,21 +153,21 @@ class Client(object):
 
         try:
             
-            self._mh.dmsg('htk_on_debug_info', self._mh._trn.msg('zap_stop'), self._mh.fromhere())
+            self._mh.demsg('htk_on_debug_info', self._mh._trn.msg('zap_stop'), self._mh.fromhere())
             ev = event.Event('zap_before_stop')
             self._mh.fire_event(ev)
             
             if (ev.will_run_default()):
                 self._client.core.shutdown()
                 
-            self._mh.dmsg('htk_on_debug_info', self._mh._trn.msg('zap_stopped'), self._mh.fromhere())
+            self._mh.demsg('htk_on_debug_info', self._mh._trn.msg('zap_stopped'), self._mh.fromhere())
             ev = event.Event('zap_after_stop')
             self._mh.fire_event(ev)
 
             return True                
 
         except Exception as ex:
-            self._mh.dmsg('htk_on_error', 'error: {0}'.format(ex), self._mh.fromhere())
+            self._mh.demsg('htk_on_error', 'error: {0}'.format(ex), self._mh.fromhere())
             return False            
 
     def spider(self, url, params=None):
@@ -188,7 +188,7 @@ class Client(object):
 
         try:
 
-            self._mh.dmsg('htk_on_debug_info', self._mh._trn.msg('zap_spider_start', url, params), self._mh.fromhere())
+            self._mh.demsg('htk_on_debug_info', self._mh._trn.msg('zap_spider_start', url, params), self._mh.fromhere())
             ev = event.Event('zap_before_spider', url, params)
             if (self._mh.fire_event(ev) > 0):
                 url = ev.argv(0)
@@ -215,14 +215,14 @@ class Client(object):
 
                     sleep(1)
                 
-            self._mh.dmsg('htk_on_debug_info', self._mh._trn.msg('zap_spider_finish'), self._mh.fromhere())
+            self._mh.demsg('htk_on_debug_info', self._mh._trn.msg('zap_spider_finish'), self._mh.fromhere())
             ev = event.Event('zap_after_spider')
             self._mh.fire_event(ev)
 
             return True, len(self._client.core.urls)
 
         except Exception as ex:
-            self._mh.dmsg('htk_on_error', 'error: {0}'.format(ex), self._mh.fromhere())
+            self._mh.demsg('htk_on_error', 'error: {0}'.format(ex), self._mh.fromhere())
             return False, None
 
     def scan(self, url, method=None, params=None):
@@ -244,7 +244,7 @@ class Client(object):
 
         try:
 
-            self._mh.dmsg('htk_on_debug_info', self._mh._trn.msg('zap_scan_start', url, method, params), self._mh.fromhere())
+            self._mh.demsg('htk_on_debug_info', self._mh._trn.msg('zap_scan_start', url, method, params), self._mh.fromhere())
             ev = event.Event('zap_before_scan', url, method, params)
             if (self._mh.fire_event(ev) > 0):
                 url = ev.argv(0)
@@ -278,7 +278,7 @@ class Client(object):
 
                     sleep(1)
 
-            self._mh.dmsg('htk_on_debug_info', self._mh._trn.msg('zap_scan_finish'), self._mh.fromhere())
+            self._mh.demsg('htk_on_debug_info', self._mh._trn.msg('zap_scan_finish'), self._mh.fromhere())
             ev = event.Event('zap_after_scan')
             self._mh.fire_event(ev)
 
@@ -286,7 +286,7 @@ class Client(object):
             return True, cnt
 
         except Exception as ex:
-            self._mh.dmsg('htk_on_error', 'error: {0}'.format(ex), self._mh.fromhere())
+            self._mh.demsg('htk_on_error', 'error: {0}'.format(ex), self._mh.fromhere())
             return False, None
 
     def export(self, out_type='alert', out_format='json', output=None, url=None):
@@ -309,7 +309,7 @@ class Client(object):
 
         try:
             
-            self._mh.dmsg('htk_on_debug_info', self._mh._trn.msg('zap_export_start', out_type, out_format, output, url), self._mh.fromhere())
+            self._mh.demsg('htk_on_debug_info', self._mh._trn.msg('zap_export_start', out_type, out_format, output, url), self._mh.fromhere())
             ev = event.Event('zap_before_export', out_type, out_format, output, url)
             if (self._mh.fire_event(ev) > 0):
                 out_type = ev.argv(0)
@@ -344,12 +344,12 @@ class Client(object):
                 with open(output, 'w') as f:
                     f.write(data)
 
-            self._mh.dmsg('htk_on_debug_info', self._mh._trn.msg('zap_export_finish'), self._mh.fromhere())
+            self._mh.demsg('htk_on_debug_info', self._mh._trn.msg('zap_export_finish'), self._mh.fromhere())
             ev = event.Event('zap_after_export')
             self._mh.fire_event(ev)
             
             return True, output
 
         except (Exception, ValueError) as ex:
-            self._mh.dmsg('htk_on_error', 'error: {0}'.format(ex), self._mh.fromhere())
+            self._mh.demsg('htk_on_error', 'error: {0}'.format(ex), self._mh.fromhere())
             return False, None
