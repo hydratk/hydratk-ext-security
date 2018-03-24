@@ -112,7 +112,7 @@ class Client(object):
         try:
 
             self._path = self._path if (proxy_path == None) else proxy_path
-            self._mh.demsg('htk_on_debug_info', self._mh._trn.msg('zap_start', self._path, self._host, self._port), self._mh.fromhere())
+            self._mh.demsg('htk_on_debug_info', self._mh._trn.msg('sec_zap_start', self._path, self._host, self._port), self._mh.fromhere())
 
             ev = event.Event('zap_before_start')
             self._mh.fire_event(ev)
@@ -124,9 +124,9 @@ class Client(object):
                     sleep(10)
                     self._client.core.version
                 else:
-                    raise ValueError('Path {0} not found'.format(self._path))
+                    raise ValueError(self._mh._trn.msg('sec_path_not_found', self._path))
 
-            self._mh.demsg('htk_on_debug_info', self._mh._trn.msg('zap_started'), self._mh.fromhere())
+            self._mh.demsg('htk_on_debug_info', self._mh._trn.msg('sec_zap_started'), self._mh.fromhere())
             ev = event.Event('zap_after_start')
             self._mh.fire_event(ev)
 
@@ -153,14 +153,14 @@ class Client(object):
 
         try:
             
-            self._mh.demsg('htk_on_debug_info', self._mh._trn.msg('zap_stop'), self._mh.fromhere())
+            self._mh.demsg('htk_on_debug_info', self._mh._trn.msg('sec_zap_stop'), self._mh.fromhere())
             ev = event.Event('zap_before_stop')
             self._mh.fire_event(ev)
             
             if (ev.will_run_default()):
                 self._client.core.shutdown()
                 
-            self._mh.demsg('htk_on_debug_info', self._mh._trn.msg('zap_stopped'), self._mh.fromhere())
+            self._mh.demsg('htk_on_debug_info', self._mh._trn.msg('sec_zap_stopped'), self._mh.fromhere())
             ev = event.Event('zap_after_stop')
             self._mh.fire_event(ev)
 
@@ -188,7 +188,7 @@ class Client(object):
 
         try:
 
-            self._mh.demsg('htk_on_debug_info', self._mh._trn.msg('zap_spider_start', url, params), self._mh.fromhere())
+            self._mh.demsg('htk_on_debug_info', self._mh._trn.msg('sec_zap_spider_start', url, params), self._mh.fromhere())
             ev = event.Event('zap_before_spider', url, params)
             if (self._mh.fire_event(ev) > 0):
                 url = ev.argv(0)
@@ -205,7 +205,7 @@ class Client(object):
 
                 while (True):
                     progress = self._client.spider.status(scanid)
-                    stdout.write('\r' + self._mh._trn.msg('zap_progress', 'spider', progress))
+                    stdout.write('\r' + self._mh._trn.msg('sec_zap_progress', 'spider', progress))
                     stdout.flush()
 
                     if (int(progress) == 100):
@@ -215,7 +215,7 @@ class Client(object):
 
                     sleep(1)
                 
-            self._mh.demsg('htk_on_debug_info', self._mh._trn.msg('zap_spider_finish'), self._mh.fromhere())
+            self._mh.demsg('htk_on_debug_info', self._mh._trn.msg('sec_zap_spider_finish'), self._mh.fromhere())
             ev = event.Event('zap_after_spider')
             self._mh.fire_event(ev)
 
@@ -244,7 +244,7 @@ class Client(object):
 
         try:
 
-            self._mh.demsg('htk_on_debug_info', self._mh._trn.msg('zap_scan_start', url, method, params), self._mh.fromhere())
+            self._mh.demsg('htk_on_debug_info', self._mh._trn.msg('sec_zap_scan_start', url, method, params), self._mh.fromhere())
             ev = event.Event('zap_before_scan', url, method, params)
             if (self._mh.fire_event(ev) > 0):
                 url = ev.argv(0)
@@ -268,7 +268,7 @@ class Client(object):
 
                 while (True):
                     progress = self._client.ascan.status(scanid)
-                    stdout.write('\r' + self._mh._trn.msg('zap_progress', 'scan', progress))
+                    stdout.write('\r' + self._mh._trn.msg('sec_zap_progress', 'scan', progress))
                     stdout.flush()
 
                     if (int(progress) == 100):
@@ -278,7 +278,7 @@ class Client(object):
 
                     sleep(1)
 
-            self._mh.demsg('htk_on_debug_info', self._mh._trn.msg('zap_scan_finish'), self._mh.fromhere())
+            self._mh.demsg('htk_on_debug_info', self._mh._trn.msg('sec_zap_scan_finish'), self._mh.fromhere())
             ev = event.Event('zap_after_scan')
             self._mh.fire_event(ev)
 
@@ -309,7 +309,7 @@ class Client(object):
 
         try:
             
-            self._mh.demsg('htk_on_debug_info', self._mh._trn.msg('zap_export_start', out_type, out_format, output, url), self._mh.fromhere())
+            self._mh.demsg('htk_on_debug_info', self._mh._trn.msg('sec_zap_export_start', out_type, out_format, output, url), self._mh.fromhere())
             ev = event.Event('zap_before_export', out_type, out_format, output, url)
             if (self._mh.fire_event(ev) > 0):
                 out_type = ev.argv(0)
@@ -319,12 +319,12 @@ class Client(object):
 
             if (ev.will_run_default()):
                 if (out_type not in ['alert', 'msg', 'url']):
-                    raise ValueError('Invalid type {0}'.format(out_type))
+                    raise ValueError(self._mh._trn.msg('sec_zap_invalid_value', 'type', out_type))
                 elif (out_format not in ['har', 'html', 'json', 'md', 'xml']):
-                    raise ValueError('Invalid format {0}'.format(out_format))
+                    raise ValueError(self._mh._trn.msg('sec_zap_invalid_value', 'format', out_format))
                 elif ((out_type == 'alert' and out_format not in ['html', 'json', 'md', 'xml']) or
                       (out_type == 'msg' and out_format not in ['har', 'json']) or (out_type == 'url' and out_format != 'json')):
-                    raise ValueError('Invalid format {0} for type {1}'.format(out_format, out_type))
+                    raise ValueError(self._mh._trn.msg('sec_zap_invalid_value_for_value', 'format', out_format, 'type', out_type))
 
                 if (out_type == 'url'):
                     data = dumps(self._client.core.urls, indent=1)
@@ -344,7 +344,7 @@ class Client(object):
                 with open(output, 'w') as f:
                     f.write(data)
 
-            self._mh.demsg('htk_on_debug_info', self._mh._trn.msg('zap_export_finish'), self._mh.fromhere())
+            self._mh.demsg('htk_on_debug_info', self._mh._trn.msg('sec_zap_export_finish'), self._mh.fromhere())
             ev = event.Event('zap_after_export')
             self._mh.fire_event(ev)
             

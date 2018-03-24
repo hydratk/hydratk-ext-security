@@ -211,9 +211,9 @@ class Extension(extension.Extension):
 
         action = CommandlineTool.get_input_option('sec-action')
         if (not action):
-            print('Missing option action')
+            print(self._mh._trn.msg('sec_missing_option', 'action'))
         elif (action not in ['call', 'help', 'start', 'stop']):
-            print('Action not in call|help|start|stop')
+            print(self._mh._trn.msg('sec_invalid_option_value', 'action', 'call|help|start|stop'))
         else:
 
             rpc_path = CommandlineTool.get_input_option('sec-path')
@@ -237,16 +237,16 @@ class Extension(extension.Extension):
                 rpc_path = 'msfrpcd' if (not rpc_path) else rpc_path
                 result = c.start(rpc_path)
                 if (not result):
-                    print('Failed to start MSF')
+                    print(self._mh._trn.msg('sec_start_failed', 'MSF'))
 
             elif (action == 'stop'):
                 result = c.stop()
                 if (not result):
-                    print('Failed to stop MSF')
+                    print(self._mh._trn.msg('sec_stop_failed', 'MSF'))
 
             elif (action == 'call'):
                 if (not method):
-                    print('Missing option method')
+                    print(self._mh._trn.msg('sec_missing_option', 'method'))
                 else:
                     params = []
                     if (in_params != False):
@@ -259,7 +259,7 @@ class Extension(extension.Extension):
                     
                     result, out = c.call(method, params)
                     if (not result):
-                        print('Failed to call MSF method {0}'.format(method))
+                        print(self._mh._trn.msg('sec_msf_call_error', method))
                     else:
                         print(out)
 
@@ -286,9 +286,9 @@ class Extension(extension.Extension):
 
         action = CommandlineTool.get_input_option('sec-action')
         if (not action):
-            print('Missing option action')
+            print(self._mh._trn.msg('sec_missing_option', 'action'))
         elif (action not in ['export', 'scan', 'spider', 'start', 'stop']):
-            print('Action not in export|scan|spider|start|stop')
+            print(self._mh._trn.msg('sec_invalid_option_value', 'action', 'export|scan|spider|start|stop'))
         else:
 
             proxy_path = CommandlineTool.get_input_option('sec-path')
@@ -319,33 +319,33 @@ class Extension(extension.Extension):
                 proxy_path = 'zap.sh' if (not proxy_path) else proxy_path
                 result = c.start(proxy_path)
                 if (not result):
-                    print('Failed to start ZAP')
+                    print(self._mh._trn.msg('sec_start_failed', 'ZAP'))
 
             elif (action == 'stop'):
                 result = c.stop()
                 if (not result):
-                    print('Failed to stop ZAP')
+                    print(self._mh._trn.msg('sec_stop_failed', 'ZAP'))
 
             elif (action == 'spider'):
                 if (url == None):
-                    print('Missing option url')
+                    print(self._mh._trn.msg('sec_missing_option', 'url'))
                 else:
                     result, cnt = c.spider(url, params)
                     if (result):
-                        print('{0} urls found'.format(cnt))
+                        print(self._mh._trn.msg('sec_zap_spider_urls_found', cnt))
                     else:
-                        print('Spider failed')
+                        print(self._mh._trn.msg('sec_zap_action_error', 'spider'))
 
             elif (action == 'scan'):
                 if (url == None):
-                    print('Missing option url')
+                    print(self._mh._trn.msg('sec_missing_option', 'url'))
                 else:
                     method = None if (not method) else method
                     result, cnt = c.scan(url, method, params)
                     if (result):
-                        print ('{0} alerts found'.format(cnt))
+                        print (self._mh._trn.msg('sec_zap_scan_alerts_found', cnt))
                     else:
-                        print('Scan failed')
+                        print(self._mh._trn.msg('sec_zap_action_error', 'scan'))
 
             elif (action == 'export'):
                 out_type = 'alert' if (not out_type) else out_type
@@ -353,18 +353,18 @@ class Extension(extension.Extension):
                 output = None if (not output) else output
 
                 if (out_type not in ['alert', 'msg', 'url']):
-                    print('Type not in alert|msg|url')
+                    print(self._mh._trn.msg('sec_invalid_option_value', 'type', 'alert|msg|url'))
                 elif (out_format not in ['har', 'html', 'json', 'md', 'xml']):
-                    print('Format not in har|html|json|md|xml')
+                    print(self._mh._trn.msg('sec_invalid_option_value', 'format', 'har|html|json|md|xml'))
                 elif (out_type == 'alert' and out_format not in ['html', 'json', 'md', 'xml']):
-                    print('Format not in html|json|md|xml for type alert')
+                    print(self._mh._trn.msg('sec_invalid_option_value', 'format', 'html|json|md|xml'))
                 elif (out_type == 'msg' and out_format not in ['har', 'json']):
-                    print('Format not in har|json for type msg')
+                    print(self._mh._trn.msg('sec_invalid_option_value', 'format', 'har|json'))
                 elif (out_type == 'url' and out_format not in ['json']):
-                    print('Format not in json for type url')
+                    print(self._mh._trn.msg('sec_invalid_option_value', 'format', 'json'))
                 else:
                     result, output = c.export(out_type, out_format, output, url)
                     if (result):
-                        print('File {0} generated'.format(output))
+                        print(self._mh._trn.msg('sec_zap_export_generated', output))
                     else:
-                        print('Failed to generate export')
+                        print(self._mh._trn.msg('sec_zap_action_error', 'export'))

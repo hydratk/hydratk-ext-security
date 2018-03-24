@@ -124,7 +124,7 @@ class Client(object):
         try:
 
             self._path = self._path if (rpc_path == None) else rpc_path
-            self._mh.demsg('htk_on_debug_info', self._mh._trn.msg('msf_start', self._path, self._host, self._port,
+            self._mh.demsg('htk_on_debug_info', self._mh._trn.msg('sec_msf_start', self._path, self._host, self._port,
                           self._user, self._passw), self._mh.fromhere())
 
             ev = event.Event('msf_before_start')
@@ -136,11 +136,11 @@ class Client(object):
                     Popen(cmd, stdout=open(devnull, 'w'))
                     sleep(10)
                     if (self._get_process() == None):
-                        raise Exception('Process not started')
+                        raise Exception(self._mh._trn.msg('sec_msf_not_started'))
                 else:
-                    raise ValueError('Path {0} not found'.format(self._path))
+                    raise ValueError(self._mh._trn.msg('sec_path_not_found', self._path))
 
-            self._mh.demsg('htk_on_debug_info', self._mh._trn.msg('msf_started'), self._mh.fromhere())
+            self._mh.demsg('htk_on_debug_info', self._mh._trn.msg('sec_msf_started'), self._mh.fromhere())
             ev = event.Event('msf_after_start')
             self._mh.fire_event(ev)
 
@@ -167,17 +167,17 @@ class Client(object):
 
         try:
 
-            self._mh.demsg('htk_on_debug_info', self._mh._trn.msg('msf_stop'), self._mh.fromhere())
+            self._mh.demsg('htk_on_debug_info', self._mh._trn.msg('sec_msf_stop'), self._mh.fromhere())
             ev = event.Event('msf_before_stop')
             self._mh.fire_event(ev)
 
             if (ev.will_run_default()):
                 proc = self._get_process()
                 if (proc == None):
-                    raise Exception('Process not started')
+                    raise Exception(self._mh._trn.msg('sec_msf_not_started'))
                 proc.terminate()
 
-            self._mh.demsg('htk_on_debug_info', self._mh._trn.msg('msf_stopped'), self._mh.fromhere())
+            self._mh.demsg('htk_on_debug_info', self._mh._trn.msg('sec_msf_stopped'), self._mh.fromhere())
             ev = event.Event('msf_after_stop')
             self._mh.fire_event(ev)
 
@@ -205,7 +205,7 @@ class Client(object):
 
         try:
 
-            self._mh.demsg('htk_on_debug_info', self._mh._trn.msg('msf_call_req', method, params), self._mh.fromhere())
+            self._mh.demsg('htk_on_debug_info', self._mh._trn.msg('sec_msf_call_req', method, params), self._mh.fromhere())
             ev = event.Event('msf_before_call', method, params)
             if (self._mh.fire_event(ev) > 0):
                 method = ev.argv(0)
@@ -226,7 +226,7 @@ class Client(object):
                         else:
                             raise Exception(res['error_message'] if (version_info[0] == 2) else res[b'error_message'])
                     else:
-                        raise Exception('Failed to connect')
+                        raise Exception(self._mh._trn.msg('sec_msf_connect_error'))
 
                 if (method != 'auth.login'):
                     data = packb([method, self._token] + params)
@@ -238,7 +238,7 @@ class Client(object):
                     else:
                         raise Exception(res.content)
 
-            self._mh.demsg('htk_on_debug_info', self._mh._trn.msg('msf_call_res', res), self._mh.fromhere())
+            self._mh.demsg('htk_on_debug_info', self._mh._trn.msg('sec_msf_call_res', res), self._mh.fromhere())
             ev = event.Event('msf_after_call')
             self._mh.fire_event(ev)
 
